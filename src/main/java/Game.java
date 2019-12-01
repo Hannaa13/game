@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Game {
-    public void choice() throws IOException, ArrayIndexOutOfBoundsException {
+    public void choice() throws IOException {
         int win = 0;
         int lose = 0;
         String result;
@@ -12,9 +12,14 @@ public class Game {
         Scanner sc = new Scanner(System.in);
         int count = sc.nextInt();
 
-        if (count <= 0){
-            System.out.println("Не корректно");
-            System.exit(0);
+        if (count <= 0) {
+            try {
+                throw new IOException();
+
+            } catch (IOException e) {
+                System.out.println("Не корректно");
+                System.exit(0);
+            }
         }
 
         double n = (double) count / 2;
@@ -37,13 +42,13 @@ public class Game {
             } else {
                 y = 0;
             }
+
             String[][] xy = {
                     {tie, youWin, youLose},
                     {youLose, tie, youWin},
                     {youWin, youLose, tie}};
 
-
-                System.out.println(xy[x][y]);
+            System.out.println(xy[x][y]);
 
             if (xy[x][y].equals(youWin)) {
                 win++;
@@ -70,8 +75,8 @@ public class Game {
         write(result);
     }
 
-    private void write(String result)
-            throws IOException {
+
+    private void write(String result) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\file\\result", true));
         writer.append(result);
 
