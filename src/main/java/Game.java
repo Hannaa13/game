@@ -3,15 +3,20 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Game {
-    public void choice() throws IOException {
+    public void choice() throws IOException, ArrayIndexOutOfBoundsException {
         int win = 0;
         int lose = 0;
         String result;
 
         System.out.println("Введите количество попыток:  ");
         Scanner sc = new Scanner(System.in);
-
         int count = sc.nextInt();
+
+        if (count <= 0){
+            System.out.println("Не корректно");
+            System.exit(0);
+        }
+
         double n = (double) count / 2;
         String youLose = "YOU LOSE";
         String youWin = "YOU WIN";
@@ -36,7 +41,9 @@ public class Game {
                     {tie, youWin, youLose},
                     {youLose, tie, youWin},
                     {youWin, youLose, tie}};
-            System.out.println(xy[x][y]);
+
+
+                System.out.println(xy[x][y]);
 
             if (xy[x][y].equals(youWin)) {
                 win++;
@@ -56,13 +63,17 @@ public class Game {
             result = tie + " >> " + win + ":" + lose;
         System.out.println(result);
 
+        File resultFile = new File("gameResult");
+        PrintWriter pw = new PrintWriter(resultFile);
+        pw.println(result);
+        pw.close();
         write(result);
     }
 
     private void write(String result)
             throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\file\\result"));
-        writer.write(result);
+        BufferedWriter writer = new BufferedWriter(new FileWriter("C:\\file\\result", true));
+        writer.append(result);
 
         writer.close();
     }
